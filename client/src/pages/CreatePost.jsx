@@ -14,6 +14,7 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const generateImage = () => {};
   const handleSubmit = () => {};
   const handleChange = (e) => {};
   const handleSurpriseMe = () => {};
@@ -77,6 +78,16 @@ const CreatePost = () => {
               </div>
             )}
           </div>
+        </div>
+
+        <div className="mt-5 flex gap-5">
+          <button
+            type="button"
+            onClick={generateImage}
+            className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          >
+            {generatingImg ? "Generating..." : "Generate"}
+          </button>
         </div>
       </form>
     </section>
