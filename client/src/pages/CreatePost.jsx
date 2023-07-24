@@ -61,7 +61,7 @@ const CreatePost = () => {
         setLoading(false);
       }
     } else {
-      alert("Plase generate an image with proper details");
+      alert("Please enter propert details to generate an image.");
     }
   };
 
