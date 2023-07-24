@@ -15,6 +15,8 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [allPosts, setAllPosts] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const [searchedResults, setSearchedResults] = useState(null);
+  const [searchTimeout, setSearchTimeout] = useState(null);
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -42,6 +44,23 @@ const Home = () => {
     fetchPosts();
   }, []);
 
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+
+    setSearchText(e.target.value);
+
+    setSearchTimeout(
+      setTimeout(() => {
+        const searchResults = allPosts.filter(
+          (item) =>
+            item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.prompt.toLowerCase().includes(searchText.toLowerCase())
+        );
+        setSearchedResults(searchResults);
+      }, 500)
+    );
+  };
+
   return (
     <section className="max-w-7x1 mx-auto">
       <div>
@@ -57,7 +76,14 @@ const Home = () => {
         </p>
       </div>
       <div className="mt-16">
-        <FormField />
+        <FormField
+          labelName="Search posts"
+          type="text"
+          name="text"
+          placeholder="Search posts"
+          value={searchText}
+          handleChange={handleSearchChange}
+        />
       </div>
       <div className="mt-10">
         {loading ? (
@@ -66,7 +92,7 @@ const Home = () => {
           </div>
         ) : (
           <>
-            {searchText && (
+            {/* {searchText && (
               <h2
                 className="font-medium text-[#666e75]
           text-xl mb-3"
@@ -74,13 +100,17 @@ const Home = () => {
                 Showing results for{" "}
                 <span className="text-[#222328]">{searchText}</span>
               </h2>
-            )}
+            )} */}
+
             <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
               {/* <p>searchText = {searchText}</p> */}
               {searchText ? (
                 <>
-                  <p>searchText = {searchText}</p>
-                  <RenderCards data={[]} title="No search results found" />
+                  {/* <p>searchText = {searchText}</p> */}
+                  <RenderCards
+                    data={searchedResults}
+                    title="No search results found"
+                  />
                 </>
               ) : (
                 <RenderCards data={allPosts} title="No posts yet" />
